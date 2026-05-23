@@ -1012,9 +1012,26 @@
 </div>
 
 <script>
-  const ADMIN_PWD = 'bici2025'; // ← cambia questa password
+  // Password offuscata — i codici sono charCode+7, non leggibile direttamente
+  const _k = [73,112,114,108,57,55,57,61,40,71];
+  const _chk = (s) => s.length === _k.length && [...s].every((c,i) => c.charCodeAt(0)+7 === _k[i]);
+
   let menuOpen = false;
   let authenticated = false;
+
+  // Bottone visibile solo quando si è in fondo alla pagina
+  window.addEventListener('scroll', () => {
+    const fab = document.getElementById('fab-btn');
+    const scrolled = window.scrollY + window.innerHeight;
+    const total = document.documentElement.scrollHeight;
+    if (scrolled >= total - 80) {
+      fab.style.display = 'flex';
+      setTimeout(() => fab.style.opacity = '1', 30);
+    } else {
+      fab.style.opacity = '0';
+      setTimeout(() => { if (fab.style.opacity === '0') fab.style.display = 'none'; }, 350);
+    }
+  });
 
   function fabClick() {
     if (!authenticated) {
@@ -1029,7 +1046,7 @@
 
   function checkPwd() {
     const val = document.getElementById('pwd-input').value;
-    if (val === ADMIN_PWD) {
+    if (_chk(val)) {
       authenticated = true;
       closePwd();
       showMenu();
