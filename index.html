@@ -977,10 +977,10 @@
   position:fixed; bottom:1.5rem; right:1.5rem; z-index:8888;
   width:44px; height:44px; border-radius:50%;
   background:rgba(26,26,26,0.7); border:1px solid rgba(240,90,40,0.3);
-  display:flex; align-items:center; justify-content:center;
+  display:none; align-items:center; justify-content:center;
   cursor:pointer; backdrop-filter:blur(6px);
   box-shadow:0 2px 12px rgba(0,0,0,0.4);
-  transition: border-color 0.2s;">
+  opacity:0; transition: opacity 0.35s ease, border-color 0.2s;">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F05A28" stroke-width="2" stroke-linecap="round">
     <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
   </svg>
@@ -1009,6 +1009,9 @@
   <button onclick="openTap()" style="background:#1A1A1A; border:1px solid rgba(240,90,40,0.5); color:#F05A28; font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; padding:0.55rem 1.1rem; border-radius:20px; cursor:pointer; backdrop-filter:blur(6px); white-space:nowrap; box-shadow:0 2px 10px rgba(0,0,0,0.4);">
     🚴 Tappa del giorno
   </button>
+  <a href="instagram-template-wbr.html" target="_blank" style="background:#1A1A1A; border:1px solid rgba(240,90,40,0.5); color:#F05A28; font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; padding:0.55rem 1.1rem; border-radius:20px; cursor:pointer; backdrop-filter:blur(6px); white-space:nowrap; box-shadow:0 2px 10px rgba(0,0,0,0.4); text-decoration:none;">
+    📱 Template Instagram
+  </a>
 </div>
 
 <script>
@@ -1020,7 +1023,7 @@
   let authenticated = false;
 
   // Bottone visibile solo quando si è in fondo alla pagina
-  window.addEventListener('scroll', () => {
+  function checkScroll() {
     const fab = document.getElementById('fab-btn');
     const scrolled = window.scrollY + window.innerHeight;
     const total = document.documentElement.scrollHeight;
@@ -1031,7 +1034,9 @@
       fab.style.opacity = '0';
       setTimeout(() => { if (fab.style.opacity === '0') fab.style.display = 'none'; }, 350);
     }
-  });
+  }
+  window.addEventListener('scroll', checkScroll);
+  window.addEventListener('load', checkScroll);
 
   function fabClick() {
     if (!authenticated) {
