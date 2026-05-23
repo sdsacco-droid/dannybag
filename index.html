@@ -491,8 +491,73 @@
     letter-spacing: 0.04em;
   }
 
+  /* ---- TAPPA DEL GIORNO ---- */
+  .tappa-section {
+    background: #111;
+    border-top: 2px solid var(--orange);
+    border-bottom: 2px solid var(--orange);
+    padding: 2rem 5vw;
+  }
+  .tappa-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    max-width: 900px;
+  }
+  .tappa-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 0.5rem;
+  }
+  .tappa-day {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 900;
+    color: var(--offwhite);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .tappa-route {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    color: rgba(255,248,244,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.3rem;
+  }
+  .tappa-stats {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .tappa-stat { text-align: center; }
+  .tappa-stat-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 900;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .tappa-stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,248,244,0.35);
+    margin-top: 0.3rem;
+  }
+  @media (max-width: 600px) {
+    .tappa-inner { flex-direction: column; align-items: flex-start; }
+    .tappa-stats { gap: 1.2rem; }
+  }
 
-  .gallery-section {
+
     background: var(--dark);
     padding: 3rem 5vw 2rem;
   }
@@ -614,6 +679,35 @@
   <div class="progress-footer">
     <span class="progress-pct">0% raggiunto</span>
     <span class="progress-bikes">= 0 bici <strong>Buffalo</strong> donate</span>
+  </div>
+</div>
+
+<!-- TAPPA DEL GIORNO -->
+<div class="tappa-section" id="tappa-section" style="display:none;">
+  <div class="tappa-inner">
+    <div class="tappa-left">
+      <div class="tappa-label">In viaggio · Tappa del giorno</div>
+      <div class="tappa-day" id="tappa-day-num">—</div>
+      <div class="tappa-route" id="tappa-route">—</div>
+    </div>
+    <div class="tappa-stats">
+      <div class="tappa-stat">
+        <div class="tappa-stat-val" id="tappa-km">—</div>
+        <div class="tappa-stat-label">km oggi</div>
+      </div>
+      <div class="tappa-stat">
+        <div class="tappa-stat-val" id="tappa-dis">—</div>
+        <div class="tappa-stat-label">dislivello</div>
+      </div>
+      <div class="tappa-stat">
+        <div class="tappa-stat-val" id="tappa-totkm">—</div>
+        <div class="tappa-stat-label">km totali</div>
+      </div>
+      <div class="tappa-stat">
+        <div class="tappa-stat-val" id="tappa-totdis">—</div>
+        <div class="tappa-stat-label">dis. totale</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -771,7 +865,7 @@
 <div id="fndin-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:9999; align-items:center; justify-content:center;">
   <div style="background:#1A1A1A; border:2px solid #F05A28; border-radius:8px; padding:2.5rem; width:380px; max-width:92vw;">
     <div style="font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase; color:#F05A28; margin-bottom:1.5rem;">💰 FND · Raccolta fondi</div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:2rem;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.2rem;">
       <div>
         <label style="font-family:'IBM Plex Mono',monospace; font-size:0.6rem; letter-spacing:0.1em; color:rgba(255,248,244,0.4); text-transform:uppercase; display:block; margin-bottom:0.4rem;">Importo raccolto (€)</label>
         <input id="fndin-raised" type="number" min="0" max="9999" placeholder="es. 340"
@@ -782,6 +876,11 @@
         <input id="fndin-goal" type="number" min="0" max="9999" placeholder="1700"
           style="width:100%; background:#2A2A2A; border:1px solid rgba(240,90,40,0.4); color:#FFF8F4; font-family:'Barlow Condensed',sans-serif; font-size:2rem; font-weight:700; padding:0.4rem 0.7rem; border-radius:4px; outline:none;">
       </div>
+    </div>
+    <div>
+      <label style="font-family:'IBM Plex Mono',monospace; font-size:0.6rem; letter-spacing:0.1em; color:rgba(255,248,244,0.4); text-transform:uppercase; display:block; margin-bottom:0.4rem;">GitHub Token <span style="color:rgba(255,248,244,0.2); text-transform:none; letter-spacing:0">(salvato solo qui)</span></label>
+      <input id="fndin-token" type="password" placeholder="ghp_..."
+        style="width:100%; background:#2A2A2A; border:1px solid rgba(240,90,40,0.3); color:#FFF8F4; font-family:'IBM Plex Mono',monospace; font-size:0.85rem; padding:0.5rem 0.8rem; border-radius:4px; outline:none; margin-bottom:1.2rem;">
     </div>
     <div style="display:flex; gap:1rem;">
       <button onclick="saveAdmin()" style="flex:1; background:#F05A28; color:#FFF8F4; font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:0.9rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.7rem; border:none; border-radius:4px; cursor:pointer;">Salva</button>
@@ -845,19 +944,55 @@
 </div>
 
 <script>
-  const GOAL = 1700;
+  // ---- GITHUB CONFIG ----
+  const GH_OWNER = 'sdsacco-droid';
+  const GH_REPO  = 'dannybag';
+  const GH_FILE  = 'data.json';
+  const GH_RAW   = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_FILE}`;
+  const GH_API   = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
 
-  // ---- HELPERS km/dislivello cumulativi ----
   function saveKmDay(day, km) { const d = JSON.parse(localStorage.getItem('wbr-daily-km')||'{}'); d[day]=km; localStorage.setItem('wbr-daily-km', JSON.stringify(d)); }
   function saveDisDay(day, dis) { const d = JSON.parse(localStorage.getItem('wbr-daily-dis')||'{}'); d[day]=dis; localStorage.setItem('wbr-daily-dis', JSON.stringify(d)); }
   function calcKmTot(day) { const d = JSON.parse(localStorage.getItem('wbr-daily-km')||'{}'); let t=0; for(let i=1;i<=day;i++) t+=parseInt(d[i]||0); return t; }
   function calcDisTot(day) { const d = JSON.parse(localStorage.getItem('wbr-daily-dis')||'{}'); let t=0; for(let i=1;i<=day;i++) t+=parseInt(d[i]||0); return t; }
   function calcTappe(day) { const d = JSON.parse(localStorage.getItem('wbr-daily-km')||'{}'); let t=0; for(let i=1;i<=day;i++) { if(parseInt(d[i]||0)>0) t++; } return t; }
 
-  // ---- BARRA RACCOLTA FONDI ----
+  async function loadFromGitHub() {
+    try {
+      const res = await fetch(GH_RAW + '?t=' + Date.now());
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      if (data.fundraising) updateBar(data.fundraising.raised||0, data.fundraising.goal||1700);
+      if (data.tappa && data.tappa.day > 0) updateTappa(data.tappa);
+    } catch(e) {
+      const raw = localStorage.getItem('wbr-fundraising');
+      if (raw) { const d = JSON.parse(raw); updateBar(d.raised||0, d.goal||1700); }
+    }
+  }
+
+  async function saveToGitHub(newData, token, statusEl) {
+    try {
+      const metaRes = await fetch(GH_API, { headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' } });
+      if (!metaRes.ok) throw new Error('Auth fallita. Controlla il token.');
+      const meta = await metaRes.json();
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2))));
+      const putRes = await fetch(GH_API, {
+        method: 'PUT',
+        headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Aggiornamento dati ' + new Date().toISOString().slice(0,10), content, sha: meta.sha })
+      });
+      if (!putRes.ok) throw new Error('Errore scrittura GitHub.');
+      if (statusEl) statusEl.textContent = '\u2713 Salvato su GitHub!';
+      return true;
+    } catch(e) {
+      if (statusEl) statusEl.textContent = '\u2717 ' + e.message;
+      return false;
+    }
+  }
+
   function updateBar(raised, goal) {
-    const pct = Math.min(100, Math.round(raised / goal * 100));
-    const bikes = Math.floor(raised / 147);
+    const pct = Math.min(100, Math.round(raised/goal*100));
+    const bikes = Math.floor(raised/147);
     const fill = document.querySelector('.progress-fill');
     const bike = document.querySelector('.progress-bike');
     const raisedEl = document.querySelector('.progress-raised');
@@ -866,110 +1001,105 @@
     const bikesEl = document.querySelector('.progress-bikes');
     if (fill) fill.style.width = pct + '%';
     if (bike) bike.style.left = pct + '%';
-    if (raisedEl) raisedEl.textContent = '€' + raised;
-    if (goalEl) goalEl.textContent = '€' + goal;
+    if (raisedEl) raisedEl.textContent = '\u20ac' + raised;
+    if (goalEl) goalEl.textContent = '\u20ac' + goal;
     if (pctEl) pctEl.textContent = pct + '% raggiunto';
     if (bikesEl) bikesEl.innerHTML = '= ' + bikes + ' bici <strong>Buffalo</strong> donate';
   }
 
-  function loadProgress() {
-    try {
-      const raw = localStorage.getItem('wbr-fundraising');
-      if (raw) { const d = JSON.parse(raw); updateBar(d.raised||0, d.goal||GOAL); }
-      else updateBar(0, GOAL);
-    } catch(e) { updateBar(0, GOAL); }
-  }
-
-  function saveAdmin() {
-    const raised = parseInt(document.getElementById('fndin-raised').value) || 0;
-    const goal = parseInt(document.getElementById('fndin-goal').value) || GOAL;
-    try {
-      localStorage.setItem('wbr-fundraising', JSON.stringify({ raised, goal }));
-      updateBar(raised, goal);
-      document.getElementById('fndin-msg').textContent = '✓ Salvato!';
-      setTimeout(() => closeAdmin(), 900);
-    } catch(e) { document.getElementById('fndin-msg').textContent = 'Errore nel salvataggio.'; }
+  function updateTappa(t) {
+    if (!t || t.day === 0) return;
+    document.getElementById('tappa-section').style.display = 'block';
+    document.getElementById('tappa-day-num').textContent = 'GIORNO ' + String(t.day).padStart(2,'0');
+    document.getElementById('tappa-route').textContent = t.from && t.to ? t.from + ' \u2192 ' + t.to : '';
+    document.getElementById('tappa-km').textContent = t.km + ' km';
+    document.getElementById('tappa-dis').textContent = '\u2191' + t.dislivello + 'm';
+    document.getElementById('tappa-totkm').textContent = t.totKm + ' km';
+    document.getElementById('tappa-totdis').textContent = '\u2191' + t.totDis + 'm';
   }
 
   function openAdmin() {
-    const raisedEl = document.querySelector('.progress-raised');
-    const goalEl = document.querySelector('.progress-goal');
-    document.getElementById('fndin-raised').value = raisedEl ? raisedEl.textContent.replace('€','') : '';
-    document.getElementById('fndin-goal').value = goalEl ? goalEl.textContent.replace('€','') : GOAL;
+    document.getElementById('fndin-token').value = localStorage.getItem('gh-token') || '';
+    document.getElementById('fndin-raised').value = document.querySelector('.progress-raised')?.textContent.replace('\u20ac','') || '';
+    document.getElementById('fndin-goal').value = document.querySelector('.progress-goal')?.textContent.replace('\u20ac','') || '1700';
     document.getElementById('fndin-msg').textContent = '';
     document.getElementById('fndin-overlay').style.display = 'flex';
   }
   function closeAdmin() { document.getElementById('fndin-overlay').style.display = 'none'; }
 
-  // ---- TAP: INSTAGRAM ----
-  function tapRefresh() {
-    const day = parseInt(document.getElementById('tap-day').value) || 1;
-    const km = parseInt(document.getElementById('tap-km').value) || 0;
-    const dis = parseInt(document.getElementById('tap-dis').value) || 0;
-    saveKmDay(day, km);
-    saveDisDay(day, dis);
-    const tappe = calcTappe(day);
-    const tot = calcKmTot(day);
-    const disTot = calcDisTot(day);
-    document.getElementById('tap-totals').textContent = `${tappe} · ${tot} km · ↑${disTot}m`;
-  }
-
-  function tapSave() {
-    const day = parseInt(document.getElementById('tap-day').value) || 1;
-    const km = parseInt(document.getElementById('tap-km').value) || 0;
-    const dis = parseInt(document.getElementById('tap-dis').value) || 0;
-    const from = document.getElementById('tap-from').value || 'Milano';
-    const to = document.getElementById('tap-to').value || '';
-    // Save per-day data
-    saveKmDay(day, km);
-    saveDisDay(day, dis);
-    // Save current day info (same keys used by Instagram template)
-    localStorage.setItem('wbr-current-day', day);
-    localStorage.setItem('wbr-day-data', JSON.stringify({ from, to }));
-    // Also save combined key for convenience
-    localStorage.setItem('wbr-insta', JSON.stringify({ day, km, dis, from, to }));
-    document.getElementById('tap-msg').textContent = '✓ Salvato! Apri il template Instagram per gli screenshot.';
-    setTimeout(() => tapClose(), 1500);
+  async function saveAdmin() {
+    const raised = parseInt(document.getElementById('fndin-raised').value)||0;
+    const goal   = parseInt(document.getElementById('fndin-goal').value)||1700;
+    const token  = document.getElementById('fndin-token').value.trim();
+    const msg    = document.getElementById('fndin-msg');
+    if (!token) { msg.textContent = '\u2717 Inserisci il GitHub Token'; return; }
+    localStorage.setItem('gh-token', token);
+    msg.textContent = 'Salvataggio...';
+    let data = { fundraising:{raised,goal}, tappa:{day:0,from:'',to:'',km:0,dislivello:0,totKm:0,totDis:0,tappe:0,updated:''} };
+    try { const r = await fetch(GH_RAW+'?t='+Date.now()); if(r.ok) { const d=await r.json(); data=d; } } catch(e) {}
+    data.fundraising = {raised,goal};
+    const ok = await saveToGitHub(data, token, msg);
+    if (ok) { updateBar(raised,goal); localStorage.setItem('wbr-fundraising',JSON.stringify({raised,goal})); setTimeout(()=>closeAdmin(),1200); }
   }
 
   function openAdm1() {
-    const saved = JSON.parse(localStorage.getItem('wbr-insta') || '{}');
-    const savedDay = parseInt(localStorage.getItem('wbr-current-day') || saved.day || 1);
-    const savedData = JSON.parse(localStorage.getItem('wbr-day-data') || '{}');
-    const kmData = JSON.parse(localStorage.getItem('wbr-daily-km') || '{}');
-    const disData = JSON.parse(localStorage.getItem('wbr-daily-dis') || '{}');
-    document.getElementById('tap-day').value = savedDay;
-    document.getElementById('tap-km').value = kmData[savedDay] || saved.km || 0;
-    document.getElementById('tap-dis').value = disData[savedDay] || saved.dis || 0;
-    document.getElementById('tap-from').value = savedData.from || saved.from || 'Milano';
-    document.getElementById('tap-to').value = savedData.to || saved.to || '';
+    const saved = JSON.parse(localStorage.getItem('wbr-insta')||'{}');
+    const day = parseInt(localStorage.getItem('wbr-current-day')||saved.day||1);
+    const dayData = JSON.parse(localStorage.getItem('wbr-day-data')||'{}');
+    const kmData = JSON.parse(localStorage.getItem('wbr-daily-km')||'{}');
+    const disData = JSON.parse(localStorage.getItem('wbr-daily-dis')||'{}');
+    document.getElementById('tap-day').value = day;
+    document.getElementById('tap-km').value = kmData[day]||saved.km||0;
+    document.getElementById('tap-dis').value = disData[day]||saved.dis||0;
+    document.getElementById('tap-from').value = dayData.from||saved.from||'Milano';
+    document.getElementById('tap-to').value = dayData.to||saved.to||'';
     document.getElementById('tap-msg').textContent = '';
     tapRefresh();
     document.getElementById('tap-overlay').style.display = 'flex';
   }
   function tapClose() { document.getElementById('tap-overlay').style.display = 'none'; }
 
-  // ---- SHORTCUT TASTI ----
-  let seq = '';
-  document.addEventListener('keydown', (e) => {
-    if (e.shiftKey) {
-      seq += e.key.toLowerCase();
-      if (seq.endsWith('tap')) { seq = ''; openAdm1(); return; }
-      if (seq.endsWith('fnd') && !seq.endsWith('tap')) {
-        // Wait briefly to see if '1' follows
-        setTimeout(() => {
-          if (seq === '') return; // already handled
-          seq = ''; openAdmin();
-        }, 300);
-      }
-      if (seq.length > 12) seq = seq.slice(-12);
-    } else { seq = ''; }
+  function tapRefresh() {
+    const day=parseInt(document.getElementById('tap-day').value)||1;
+    const km=parseInt(document.getElementById('tap-km').value)||0;
+    const dis=parseInt(document.getElementById('tap-dis').value)||0;
+    saveKmDay(day,km); saveDisDay(day,dis);
+    document.getElementById('tap-totals').textContent = 'Tappe: '+calcTappe(day)+' \u00b7 '+calcKmTot(day)+' km \u00b7 \u2191'+calcDisTot(day)+'m';
+  }
+
+  async function tapSave() {
+    const day=parseInt(document.getElementById('tap-day').value)||1;
+    const km=parseInt(document.getElementById('tap-km').value)||0;
+    const dis=parseInt(document.getElementById('tap-dis').value)||0;
+    const from=document.getElementById('tap-from').value||'Milano';
+    const to=document.getElementById('tap-to').value||'';
+    const msg=document.getElementById('tap-msg');
+    saveKmDay(day,km); saveDisDay(day,dis);
+    localStorage.setItem('wbr-current-day',day);
+    localStorage.setItem('wbr-day-data',JSON.stringify({from,to}));
+    localStorage.setItem('wbr-insta',JSON.stringify({day,km,dis,from,to}));
+    const totKm=calcKmTot(day); const totDis=calcDisTot(day); const tappe=calcTappe(day);
+    const tappa = {day,from,to,km,dislivello:dis,totKm,totDis,tappe,updated:new Date().toISOString()};
+    const token = localStorage.getItem('gh-token')||'';
+    if (!token) {
+      msg.textContent = '\u2713 Salvato in locale. Inserisci token in FND per sync.';
+      updateTappa(tappa); setTimeout(()=>tapClose(),1500); return;
+    }
+    msg.textContent = 'Salvataggio...';
+    let data = {fundraising:{raised:0,goal:1700},tappa:{}};
+    try { const r=await fetch(GH_RAW+'?t='+Date.now()); if(r.ok) { const d=await r.json(); data=d; } } catch(e) {}
+    data.tappa = tappa;
+    const ok = await saveToGitHub(data, token, msg);
+    if (ok) { updateTappa(tappa); setTimeout(()=>tapClose(),1200); }
+  }
+
+  let seq='';
+  document.addEventListener('keydown',(e)=>{
+    if(e.shiftKey){ seq+=e.key.toLowerCase(); if(seq.endsWith('fnd')){seq='';openAdmin();} if(seq.endsWith('tap')){seq='';openAdm1();} if(seq.length>12)seq=seq.slice(-12); } else seq='';
   });
-
-  document.getElementById('fndin-overlay').addEventListener('click', (e) => { if (e.target === document.getElementById('fndin-overlay')) closeAdmin(); });
-  document.getElementById('tap-overlay').addEventListener('click', (e) => { if (e.target === document.getElementById('tap-overlay')) tapClose(); });
-
-  loadProgress();
+  document.getElementById('fndin-overlay').addEventListener('click',(e)=>{ if(e.target===document.getElementById('fndin-overlay'))closeAdmin(); });
+  document.getElementById('tap-overlay').addEventListener('click',(e)=>{ if(e.target===document.getElementById('tap-overlay'))tapClose(); });
+  loadFromGitHub();
 </script>
 
 
